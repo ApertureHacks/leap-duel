@@ -15,7 +15,7 @@ var blastRight = new Image();
 blastRight.src = '/sprites/right-blast.png';
 
 var simpleText = new Kinetic.Text({
-  x: stage.getWidth() / 2,
+    x: stage.getWidth() / 2,
     y: 15,
     text: 'Waiting for Players',
     fontSize: 30,
@@ -86,6 +86,8 @@ var socket = io.connect('/');
 socket.emit('join', function(data){});
 
 socket.on('start', function(data){
+  var playerId = data.player;
+  console.log('you are player ' + playerId);
   console.log("recieved start signal.");
   simpleText.remove();
 
@@ -194,6 +196,25 @@ socket.on('start', function(data){
       p2HealthText.setText("P2: " + data.hp + "/100");
       layerFour.add(p2HealthText);
     }
+    stage.add(layerFour);
+  });
+
+  socket.on('end', function(data){
+    layerOne.remove();
+    layerTwo.remove();
+    layerThree.remove();
+    layerFour.remove();
+
+    var endText = new Kinetic.Text({
+      x: stage.getWidth()/2,
+      y: stage.getHeight()/2,
+      text: data.loser == playerId ? "Defeat" : "Victory",
+      fontSize: 30,
+      fontFamily: "Calibri",
+      fill: data.loser == playerId ? "red" : "green"
+    });
+
+    layerFour.add(endText);
     stage.add(layerFour);
   });
 

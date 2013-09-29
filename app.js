@@ -88,6 +88,11 @@ io.sockets.on('connection', function(socket) {
                 players[2].socket.emit('hit', {player: otherPlayer.id,
                                                hit: hit,
                                                hp: otherPlayer.health});
+
+                if (otherPlayer.health <= 0) {
+                  players[1].socket.emit('end', {loser: otherPlayer.id});
+                  players[2].socket.emit('end', {loser: otherPlayer.id});
+                }
               }
 
               setTimeout(function() {
@@ -108,8 +113,8 @@ io.sockets.on('connection', function(socket) {
       }
 
       if (currentUsers >= 2) {
-        players[1].socket.emit('start');
-        players[2].socket.emit('start');
+        players[1].socket.emit('start', {player: 1});
+        players[2].socket.emit('start', {player: 2});
       }
     });
 });
