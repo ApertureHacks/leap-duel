@@ -7,6 +7,12 @@ var layerOne = new Kinetic.Layer();
 var layerTwo = new Kinetic.Layer();
 var layerThree = new Kinetic.Layer();
 
+var blastLeft = new Image();
+blastLeft.src = '/sprites/left-blast.png';
+
+var blastRight = new Image();
+blastRight.src = '/sprites/right-blast.png';
+
 var simpleText = new Kinetic.Text({
   x: stage.getWidth() / 2,
     y: 15,
@@ -34,8 +40,7 @@ playerOne.onload = function(){
 var playerTwo = new Image();
 playerTwo.onload = function(){
   var player = new Kinetic.Image({
-    x: 528,
-    y: 120,
+    x: 528, y: 120,
     image: playerTwo,
     width: 50,
     height: 100,
@@ -101,11 +106,53 @@ socket.on('start', function(data){
   });
 
   socket.on('attack', function(data) {
+    var blast;
+    var anim;
     console.log("Activating attack on player " + data.player);
     if (data.player == 1) {
       playerOne.src = '/sprites/left-attack.png';
+      blast = new Kinetic.Image({
+        x: 50,
+        y: 120,
+        image: blastRight,
+        width: 100,
+        height: 50
+      });
+
+      layerThree.add(blast);
+      stage.add(layerThree);
+
+      anim = new Kinetic.Animation(function(frame) {
+        blast.setX(frame.time * (stage.getWidth() - 100) / 1000);
+      }, layerThree);
+
+      anim.start();
+
+      setTimeout(function(){
+        blast.remove();
+      }, 1000);
     } else {
       playerTwo.src = '/sprites/right-attack.png';
+      blast = new Kinetic.Image({
+        x: 50,
+        y: 120,
+        image: blastLeft,
+        width: 100,
+        height: 50
+      });
+
+      layerThree.add(blast);
+      stage.add(layerThree);
+
+      anim = new Kinetic.Animation(function(frame) {
+        blast.setX(stage.getWidth() - 100 - (frame.time * (stage.getWidth() - 100) / 1000));
+      }, layerThree);
+
+      anim.start();
+
+      setTimeout(function(){
+        blast.remove();
+      }, 1000);
     }
   });
 
@@ -114,7 +161,7 @@ socket.on('start', function(data){
     if (data.player == 1) {
       playerOne.src = '/sprites/left-hit.png';
     } else {
-      playerOne.src = '/sprites/right-hit.png';
+      playerTwo.src = '/sprites/right-hit.png';
     }
   });
 

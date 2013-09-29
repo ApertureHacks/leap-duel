@@ -78,7 +78,7 @@ io.sockets.on('connection', function(socket) {
 
             //Register hit
             setTimeout(function(){
-              var otherPlayer = players[2%(player.id)+1];
+              var otherPlayer = players[((player.id)%2)+1];
               var hit = (otherPlayer.state === "blocking" ? false : true);
               if(hit) {
                 otherPlayer.health -= 10;
