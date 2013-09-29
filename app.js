@@ -83,10 +83,13 @@ io.sockets.on('connection', function(socket) {
               if(hit) {
                 otherPlayer.health -= 10;
                 players[1].socket.emit('hit', {player: otherPlayer.id,
-                                               hit: hit});
+                                               hit: hit,
+                                               hp: otherPlayer.health});
                 players[2].socket.emit('hit', {player: otherPlayer.id,
-                                               hit: hit});
+                                               hit: hit,
+                                               hp: otherPlayer.health});
               }
+
               setTimeout(function() {
                 otherPlayer.state = 'ready';
               players[1].socket.emit('ready', {player: otherPlayer.id});

@@ -6,6 +6,7 @@ var stage = new Kinetic.Stage({
 var layerOne = new Kinetic.Layer();
 var layerTwo = new Kinetic.Layer();
 var layerThree = new Kinetic.Layer();
+var layerFour = new Kinetic.Layer();
 
 var blastLeft = new Image();
 blastLeft.src = '/sprites/left-blast.png';
@@ -20,6 +21,24 @@ var simpleText = new Kinetic.Text({
     fontSize: 30,
     fontFamily: 'Calibri',
     fill: 'green'
+});
+
+var p1HealthText = new Kinetic.Text({
+  x: 20,
+  y: 20,
+  text: "P1: 100/100",
+  fontSize: 20,
+  fontFamily: 'Calibri',
+  fill: 'black'
+});
+
+var p2HealthText = new Kinetic.Text({
+  x: stage.getWidth() - 200,
+  y: 20,
+  text: "P2: 100/100",
+  fontSize: 20,
+  fontFamily: 'Calibri',
+  fill: 'black'
 });
 
 var playerOne = new Image();
@@ -69,6 +88,11 @@ socket.emit('join', function(data){});
 socket.on('start', function(data){
   console.log("recieved start signal.");
   simpleText.remove();
+
+  layerFour.add(p1HealthText);
+  layerFour.add(p2HealthText);
+  stage.add(layerFour);
+
   playerOne.src = '/sprites/left-ready.png';
   playerTwo.src = '/sprites/right-ready.png';
 
@@ -159,11 +183,18 @@ socket.on('start', function(data){
 
   socket.on('hit', function(data) {
     console.log("Activating hit on player " + data.player);
+    console.log("data hp is " + data.hp);
+    layerFour.remove();
     if (data.player == 1) {
       playerOne.src = '/sprites/left-hit.png';
+      p1HealthText.setText("P1: " + data.hp + "/100");
+      layerFour.add(p1HealthText);
     } else {
       playerTwo.src = '/sprites/right-hit.png';
+      p2HealthText.setText("P2: " + data.hp + "/100");
+      layerFour.add(p2HealthText);
     }
+    stage.add(layerFour);
   });
 
   socket.on('ready', function(data) {
