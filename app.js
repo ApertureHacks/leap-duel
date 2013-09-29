@@ -61,7 +61,7 @@ io.sockets.on('connection', function(socket) {
             players[2].socket.emit('block', {player: player.id});
 
             player.state = 'blocking';
-            setTimeout(function(player){
+            setTimeout(function(){
               player.state = 'ready';
             }, 1000);
           }
@@ -73,7 +73,7 @@ io.sockets.on('connection', function(socket) {
             players[2].socket.emit('attack', {player: player.id});
 
             player.state = 'attacking';
-            setTimeout(function(player){
+            setTimeout(function(){
               var otherPlayer = currentUsers[2%(player.id)+1];
               var hit = (otherPlayer.state === "blocking" ? false : true);
               if(hit) {

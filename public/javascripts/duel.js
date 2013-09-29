@@ -52,8 +52,39 @@ socket.emit('join', function(data){});
 
 socket.on('start', function(data){
   layerOne.remove(simpleText);
+  layerOne = new Kinetic.Layer();
   layerOne.add(playerOne);
   stage.add(layerOne);
   layerTwo.add(playerTwo);
   stage.add(layerTwo);
+
+  window.onkeydown = function(e){
+    var code = (e.keyCode ? e.keyCode : e.which);
+    switch(code){
+      case 65:
+        socket.emit('request-block', {});
+        break;
+      case 83:
+        socket.emit('request-attack', {});
+        break;
+    }
+  };
+
+  socket.on('block', function(data){
+    console.log("Activating block on player " + data.player);
+    var player;
+    var layer;
+    if (data.player == 1) {
+      player = playerOne;
+      layer = layerOne;
+    } else {
+      player = playerTwo;
+      layer = layerTwo;
+    }
+    layer.remove(player);
+    layer = new Kinetic.Layer();
+    player.fill='green';
+    layer.add(player);
+    stage.add(layer);
+  });
 });
