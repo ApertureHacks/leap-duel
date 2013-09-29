@@ -2,6 +2,16 @@ doctype 5
 html
   head
     title= title
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    div(id="wrap")
+      div(class="navbar navbar-default navbar-fixed-top navbar-inverse")
+        div(class="container")
+          div(class="navbar-header")
+            a(class="navbar-brand", href="/")= title
     block content
+  div(id="footer")
+    div(class="container")
+      p(class="text-muted credit")!= title + ' &copy; ' + authors
+  script(src="/javascripts/bootstrap.min.js")
