@@ -16,25 +16,35 @@ var simpleText = new Kinetic.Text({
     fill: 'green'
 });
 
-var playerOne = new Kinetic.Rect({
+var playerOne = new Image();
+playerOne.onload = function(){
+  var player = new Kinetic.Image({
     x: 0,
     y: 120,
+    image: playerOne,
     width: 50,
     height: 100,
-    fill: 'blue',
-    stroke: 'black',
-    strokeWidth: 4
-});
+  });
 
-var playerTwo = new Kinetic.Rect({
+  layerOne.add(player);
+  stage.add(layerOne);
+  console.log("playerOne loaded.");
+};
+
+var playerTwo = new Image();
+playerTwo.onload = function(){
+  var player = new Kinetic.Image({
     x: 528,
     y: 120,
+    image: playerTwo,
     width: 50,
     height: 100,
-    fill: 'red',
-    stroke: 'black',
-    strokeWidth: 4
-});
+  });
+
+  layerTwo.add(player);
+  stage.add(layerTwo);
+  console.log("playerTwo loaded.");
+};
 
 // to align text in the middle of the screen, we can set the
 // shape offset to the center of the text shape after instantiating it
@@ -51,12 +61,10 @@ var socket = io.connect('/');
 socket.emit('join', function(data){});
 
 socket.on('start', function(data){
-  layerOne.remove(simpleText);
-  layerOne = new Kinetic.Layer();
-  layerOne.add(playerOne);
-  stage.add(layerOne);
-  layerTwo.add(playerTwo);
-  stage.add(layerTwo);
+  console.log("recieved start signal.");
+  simpleText.remove();
+  playerOne.src = '/sprites/left-ready.png';
+  playerTwo.src = '/sprites/right-ready.png';
 
   window.onkeydown = function(e){
     var code = (e.keyCode ? e.keyCode : e.which);
