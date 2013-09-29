@@ -66,6 +66,19 @@ socket.on('start', function(data){
   playerOne.src = '/sprites/left-ready.png';
   playerTwo.src = '/sprites/right-ready.png';
 
+  //Leap motion detection
+  var controller = new Leap.Controller({enableGestures: true});
+  controller.loop(function(frame) {
+    var gestures = frame.gestures;
+    gestures.forEach(function(e) {
+      if(e.type === "screenTap") {
+        socket.emit('request-attack', {});
+      } else if(e.type === "swipe") {
+        socket.emit('request-block', {});
+      }
+    });
+  });
+
   window.onkeydown = function(e){
     var code = (e.keyCode ? e.keyCode : e.which);
     switch(code){
