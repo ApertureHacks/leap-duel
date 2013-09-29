@@ -74,7 +74,15 @@ io.sockets.on('connection', function(socket) {
 
             player.state = 'attacking';
             setTimeout(function(player){
-              //FIXME: check for hit on other player
+              var otherPlayer = currentUsers[2%(player.id)+1];
+              var hit = (otherPlayer.state === "blocking" ? false : true);
+              if(hit) {
+                otherPlayer.health -= 10;
+              }
+              players[1].socket.emit('hit', {player: otherPlayer.id,
+                                             hit: hit});
+              players[2].socket.emit('hit', {player: otherPlayer.id,
+                                             hit: hit});
               player.state = 'ready';
             }, 1000);
           }
