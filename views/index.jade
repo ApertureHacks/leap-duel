@@ -1,3 +1,10 @@
 extends layout
 
+block head
+  script(src="/javascripts/crafty-min.js")
+  script(src="/javascripts/duel.js")
+  script(type="text/javascript")
+    window.addEventListener('load', Game.start);
+
 block content
+  #duel-stage

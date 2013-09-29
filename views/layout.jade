@@ -4,14 +4,19 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="//code.jquery.com/jquery.js")
+
+    block head
+
   body
     div(id="wrap")
       div(class="navbar navbar-default navbar-fixed-top navbar-inverse")
         div(class="container")
           div(class="navbar-header")
             a(class="navbar-brand", href="/")= title
-    block content
-  div(id="footer")
-    div(class="container")
-      p(class="text-muted credit")!= title + ' &copy; ' + authors
-  script(src="/javascripts/bootstrap.min.js")
+      div(class="container")
+        block content
+    div(id="footer")
+      div(class="container")
+        p(class="text-muted credit")!= title + ' &copy; ' + authors
+    script(src="/javascripts/bootstrap.min.js")
