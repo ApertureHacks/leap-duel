@@ -80,69 +80,37 @@ socket.on('start', function(data){
 
   socket.on('block', function(data){
     console.log("Activating block on player " + data.player);
-    var player;
-    var layer;
     if (data.player == 1) {
-      player = playerOne;
-      layer = layerOne;
+      playerOne.src = '/sprites/left-block.png';
     } else {
-      player = playerTwo;
-      layer = layerTwo;
+      playerTwo.src = '/sprites/right-block.png';
     }
-    layer.remove(player);
-    player.setFill('green');
-    layer.add(player);
-    stage.add(layer);
   });
 
   socket.on('attack', function(data) {
     console.log("Activating attack on player " + data.player);
-    var player;
-    var layer;
     if (data.player == 1) {
-      player = playerOne;
-      layer = layerOne;
+      playerOne.src = '/sprites/left-attack.png';
     } else {
-      player = playerTwo;
-      layer = layerTwo;
+      playerTwo.src = '/sprites/right-attack.png';
     }
-    layer.remove(player);
-    player.setFill('pink');
-    layer.add(player);
-    stage.add(layer);
   });
 
   socket.on('hit', function(data) {
     console.log("Activating hit on player " + data.player);
-    var player;
-    var layer;
     if (data.player == 1) {
-      player = playerOne;
-      layer = layerOne;
+      playerOne.src = '/sprites/left-hit.png';
     } else {
-      player = playerTwo;
-      layer = layerTwo;
+      playerOne.src = '/sprites/right-hit.png';
     }
-    layer.remove(player);
-    player.setFill('black');
-    layer.add(player);
-    stage.add(layer);
   });
 
   socket.on('ready', function(data) {
     console.log("Activating ready on player " + data.player);
-    var player;
-    var layer;
     if (data.player == 1) {
-      player = playerOne;
-      layer = layerOne;
+      playerOne.src = '/sprites/left-ready.png';
     } else {
-      player = playerTwo;
-      layer = layerTwo;
+      playerTwo.src = '/sprites/right-ready.png';
     }
-    layer.remove(player);
-    player.setFill('red');
-    layer.add(player);
-    stage.add(layer);
   });
 });
