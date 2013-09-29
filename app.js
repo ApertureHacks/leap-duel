@@ -38,3 +38,10 @@ app.get('/users', user.list);
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
+// Websockets
+io.sockets.on('connection', function(socket) {
+    socket.on('woop', function(data) {
+        console.log(data);
+    });
+});
