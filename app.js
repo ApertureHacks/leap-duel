@@ -33,7 +33,7 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
 var currentUsers = 0; //FIXME: less hackish way to handle this?
-var playsers = [];
+var players = [];
 
 app.get('/', routes.index);
 app.get('/users', user.list);
@@ -74,7 +74,15 @@ io.sockets.on('connection', function(socket) {
 
             player.state = 'attacking';
             setTimeout(function(player){
-              //FIXME: check for hit on other player
+              var otherPlayer = currentUsers[2%(player.id)+1];
+              var hit = (otherPlayer.state === "blocking" ? false : true);
+              if(hit) {
+                otherPlayer.health -= 10;
+              }
+              players[1].socket.emit('hit', {player: otherPlayer.id,
+                                             hit: hit});
+              players[2].socket.emit('hit', {player: otherPlayer.id,
+                                             hit: hit});
               player.state = 'ready';
             }, 1000);
           }
@@ -82,8 +90,8 @@ io.sockets.on('connection', function(socket) {
       }
 
       if (currentUsers >= 2) {
-        players[1].emit('start');
-        players[2].emit('start');
+        players[1].socket.emit('start');
+        players[2].socket.emit('start');
       }
     });
 });

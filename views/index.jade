@@ -1,10 +1,8 @@
 extends layout
 
 block head
-  script(src="/javascripts/crafty-min.js")
-  script(src="/javascripts/duel.js")
-  script(type="text/javascript")
-    window.addEventListener('load', Game.start);
+  script(src="/javascripts/kinetic-v4.7.1.min.js")
 
 block content
-  #duel-stage
+  #container
+  script(src="/javascripts/duel.js")
