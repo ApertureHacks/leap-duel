@@ -82,11 +82,11 @@ io.sockets.on('connection', function(socket) {
               var hit = (otherPlayer.state === "blocking" ? false : true);
               if(hit) {
                 otherPlayer.health -= 10;
+                players[1].socket.emit('hit', {player: otherPlayer.id,
+                                               hit: hit});
+                players[2].socket.emit('hit', {player: otherPlayer.id,
+                                               hit: hit});
               }
-              players[1].socket.emit('hit', {player: otherPlayer.id,
-                                             hit: hit});
-              players[2].socket.emit('hit', {player: otherPlayer.id,
-                                             hit: hit});
               setTimeout(function() {
                 otherPlayer.state = 'ready';
               players[1].socket.emit('ready', {player: otherPlayer.id});
