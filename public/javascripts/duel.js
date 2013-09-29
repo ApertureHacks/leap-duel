@@ -82,8 +82,24 @@ socket.on('start', function(data){
       layer = layerTwo;
     }
     layer.remove(player);
-    layer = new Kinetic.Layer();
-    player.fill='green';
+    player.setFill('green');
+    layer.add(player);
+    stage.add(layer);
+  });
+
+  socket.on('ready', function(data) {
+    console.log("Activating ready on player " + data.player);
+    var player;
+    var layer;
+    if (data.player == 1) {
+      player = playerOne;
+      layer = layerOne;
+    } else {
+      player = playerTwo;
+      layer = layerTwo;
+    }
+    layer.remove(player);
+    player.setFill('red');
     layer.add(player);
     stage.add(layer);
   });

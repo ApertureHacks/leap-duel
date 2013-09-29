@@ -63,6 +63,8 @@ io.sockets.on('connection', function(socket) {
             player.state = 'blocking';
             setTimeout(function(){
               player.state = 'ready';
+              players[1].socket.emit('ready', {player: player.id});
+              players[2].socket.emit('ready', {player: player.id});
             }, 1000);
           }
         });
