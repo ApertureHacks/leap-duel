@@ -65,7 +65,7 @@ io.sockets.on('connection', function(socket) {
               player.state = 'ready';
               players[1].socket.emit('ready', {player: player.id});
               players[2].socket.emit('ready', {player: player.id});
-            }, 1000);
+            }, 250);
           }
         });
 
@@ -75,8 +75,10 @@ io.sockets.on('connection', function(socket) {
             players[2].socket.emit('attack', {player: player.id});
 
             player.state = 'attacking';
+
+            //Register hit
             setTimeout(function(){
-              var otherPlayer = currentUsers[2%(player.id)+1];
+              var otherPlayer = players[2%(player.id)+1];
               var hit = (otherPlayer.state === "blocking" ? false : true);
               if(hit) {
                 otherPlayer.health -= 10;
@@ -85,8 +87,19 @@ io.sockets.on('connection', function(socket) {
                                              hit: hit});
               players[2].socket.emit('hit', {player: otherPlayer.id,
                                              hit: hit});
-              player.state = 'ready';
+              setTimeout(function() {
+                otherPlayer.state = 'ready';
+              players[1].socket.emit('ready', {player: otherPlayer.id});
+              players[2].socket.emit('ready', {player: otherPlayer.id});
+              }, 200);
             }, 1000);
+
+            //Reset player
+            setTimeout(function() {
+              player.state = 'ready';
+              players[1].socket.emit('ready', {player: player.id});
+              players[2].socket.emit('ready', {player: player.id});
+            }, 250);
           }
         });
       }

@@ -87,6 +87,40 @@ socket.on('start', function(data){
     stage.add(layer);
   });
 
+  socket.on('attack', function(data) {
+    console.log("Activating attack on player " + data.player);
+    var player;
+    var layer;
+    if (data.player == 1) {
+      player = playerOne;
+      layer = layerOne;
+    } else {
+      player = playerTwo;
+      layer = layerTwo;
+    }
+    layer.remove(player);
+    player.setFill('pink');
+    layer.add(player);
+    stage.add(layer);
+  });
+
+  socket.on('hit', function(data) {
+    console.log("Activating hit on player " + data.player);
+    var player;
+    var layer;
+    if (data.player == 1) {
+      player = playerOne;
+      layer = layerOne;
+    } else {
+      player = playerTwo;
+      layer = layerTwo;
+    }
+    layer.remove(player);
+    player.setFill('black');
+    layer.add(player);
+    stage.add(layer);
+  });
+
   socket.on('ready', function(data) {
     console.log("Activating ready on player " + data.player);
     var player;
