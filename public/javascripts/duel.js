@@ -1,7 +1,7 @@
 var stage = new Kinetic.Stage({
   container: 'container',
-    width: 578,
-    height: 220
+    width: 800,
+    height: 300
 });
 var layerOne = new Kinetic.Layer();
 var layerTwo = new Kinetic.Layer();
@@ -26,7 +26,7 @@ var playerOne = new Image();
 playerOne.onload = function(){
   var player = new Kinetic.Image({
     x: 0,
-    y: 120,
+    y: stage.getHeight() - 100,
     image: playerOne,
     width: 50,
     height: 100,
@@ -40,7 +40,8 @@ playerOne.onload = function(){
 var playerTwo = new Image();
 playerTwo.onload = function(){
   var player = new Kinetic.Image({
-    x: 528, y: 120,
+    x: stage.getWidth() - 50,
+    y: stage.getHeight() - 100,
     image: playerTwo,
     width: 50,
     height: 100,
@@ -113,7 +114,7 @@ socket.on('start', function(data){
       playerOne.src = '/sprites/left-attack.png';
       blast = new Kinetic.Image({
         x: 50,
-        y: 120,
+        y: stage.getHeight() - 100,
         image: blastRight,
         width: 100,
         height: 50
@@ -134,8 +135,8 @@ socket.on('start', function(data){
     } else {
       playerTwo.src = '/sprites/right-attack.png';
       blast = new Kinetic.Image({
-        x: 50,
-        y: 120,
+        x: stage.getWidth() - 150,
+        y: stage.getHeight() - 100,
         image: blastLeft,
         width: 100,
         height: 50
